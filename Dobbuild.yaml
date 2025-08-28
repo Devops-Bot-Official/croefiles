@@ -6,7 +6,7 @@ username: crowuser
 jobs:
 - name: CROW CROWFLOW PROJECT
   stages:
-  - name: Updating Remote Server
+  - name: Updating Azure Server
     tasks:
       shell:
         enabled: true
