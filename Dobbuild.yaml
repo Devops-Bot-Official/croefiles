@@ -15,16 +15,21 @@ jobs:
         - sudo apt-get update -y
 
   # Install Git iff missing (your helper also attempts this; doing it here makes logs clearer)
-  - name: Install GIT (Debian)
+  - name: Install GIT Python(Debian)
     tasks:
-      package_management:
+      packages:
         enabled: true
-        steps:
-        - type: apt
-          names:
-          - ca-certificates
-          - git
-          state: present
-          update_cache: true
-          retries: 4
-          retry_delay: 5
+        # Keep this list focused on universally-available kits to avoid repo conflicts
+        kits:
+          - python            # python3, pip, venv
+          - git-lfs
+        extra_os_packages:
+          - shellcheck        # linter that’s reliably in Ubuntu/Debian/Alpine repos
+  
+        update_cache: true
+        verbose: true
+        fail_fast: true
+        pm_timeout_s: 600
+        pm_retries: 3
+
+          
