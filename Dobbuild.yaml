@@ -2,7 +2,7 @@ version: '1.0'
 mode: remote
 identifier: AzureCrowRunner
 category: Production
-username: root
+username: crowuser
 jobs:
 - name: CROW CROWFLOW PROJECT
   stages:
