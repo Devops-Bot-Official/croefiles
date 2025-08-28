@@ -18,7 +18,7 @@ jobs:
   - name: Install GIT (Debian)
     tasks:
       package_management:
-        enabled: false
+        enabled: true
         steps:
         - type: apt
           names:
