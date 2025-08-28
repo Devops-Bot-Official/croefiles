@@ -1,0 +1,15 @@
+version: '1.0'
+mode: remote
+identifier: AzureCrowRunner
+category: Production
+username: crowuser
+jobs:
+- name: CROW CROWFLOW PROJECT
+  stages:
+  - name: Updating Remote Server
+    tasks:
+      shell:
+        enabled: true
+        shell: bash
+        steps:
+        - apt-get update -y
