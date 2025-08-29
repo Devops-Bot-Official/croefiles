@@ -10,6 +10,7 @@ environment:
   GIT_PROVIDER: { value: crowstore://gitprovider }
   GIT_USERNAME: { value: crowstore://gitusername }
   GIT_TOKEN:    { value: crowstore://gittoken }
+  DOCKERFILE_PATH:    { value: crowstore://dockerfile}
 
   # Either use a literal branch…
   #BRANCHES:     { value: "main" }
@@ -23,6 +24,7 @@ environment:
   CROWSTORE_TOKEN_GITPROVIDER: { value: fe251dd97eccb2ea55da1072ca09c4b8 }
   CROWSTORE_TOKEN_GITUSERNAME: { value: c9e081c08366187bb1ab52a1185696f8 }
   CROWSTORE_TOKEN_GITTOKEN:    { value: 06638103869c385bdb0850f4c248ca3b }
+  CROWSTORE_TOKEN_DOCKERFILE:    { value: 94bffbb39aec840c9dd2c80dcd150701 }
 
   # Only needed if you use crowstore://gitbranch above:
   #CROWSTORE_TOKEN_GITBRANCH: { value: f4e9076b9dc189ad06dfc485fd731bf7 }
@@ -138,4 +140,4 @@ jobs:
         enabled: true
         image_name: devopsbot.azurecr.io/crow-cli
         build_tag: V0.1.31
-        dockerfile_path: ${env=CLONE_DIR}/Dockerfile         
+        dockerfile_path: env=DOCKERFILE_PATH      
