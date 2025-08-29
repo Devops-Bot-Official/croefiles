@@ -13,7 +13,7 @@ environment:
 
   # Either use a literal branch…
   #BRANCHES:     { value: "main" }
-  # …or use Crowstore (then you MUST also add the token + blob):
+
   # BRANCHES:   { value: crowstore://gitbranch }
 
   # === Matching Crowstore tokens (CROWSTORE_TOKEN_<CREDNAME UPPERCASED>) ===
