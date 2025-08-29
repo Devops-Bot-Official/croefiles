@@ -4,21 +4,28 @@ identifier: AzureCrowRunner
 category: Production
 username: crowuser
 environment:
-  # Crowstore-backed values
+  # === Crowstore-backed values ===
   CLONE_DIR:    { value: crowstore://clonedir }
   SOURCE_URL:   { value: crowstore://sourceurl }
   GIT_PROVIDER: { value: crowstore://gitprovider }
   GIT_USERNAME: { value: crowstore://gitusername }
   GIT_TOKEN:    { value: crowstore://gittoken }
-  BRANCHES: { value: crowstore://gitbranch }
 
-  # Matching tokens (CROWSTORE_TOKEN_<CREDNAME_UPPER>)
-  CROWSTORE_TOKEN_CLONEDIR:   { value: 379c89bdfbe33b78a65f24056d30ea5e }
-  CROWSTORE_TOKEN_SOURCEURL:  { value: 75d5d957b968d54a85d048c091612963 }
-  CROWSTORE_TOKEN_GITPROVIDER:{ value: fe251dd97eccb2ea55da1072ca09c4b8 }
-  CROWSTORE_TOKEN_GITUSERNAME:{ value: c9e081c08366187bb1ab52a1185696f8 }
-  CROWSTORE_TOKEN_GITTOKEN:   { value: 06638103869c385bdb0850f4c248ca3b }  
-  CROWSTORE_TOKEN_GITBRANCH: { value: f4e9076b9dc189ad06dfc485fd731bf7 }
+  # Either use a literal branch…
+  #BRANCHES:     { value: "main" }
+  # …or use Crowstore (then you MUST also add the token + blob):
+  # BRANCHES:   { value: crowstore://gitbranch }
+
+  # === Matching Crowstore tokens (CROWSTORE_TOKEN_<CREDNAME UPPERCASED>) ===
+  # These must match the *names after* crowstore:// exactly (uppercased, no extra underscores).
+  CROWSTORE_TOKEN_CLONEDIR:    { value: 379c89bdfbe33b78a65f24056d30ea5e }
+  CROWSTORE_TOKEN_SOURCEURL:   { value: 75d5d957b968d54a85d048c091612963 }
+  CROWSTORE_TOKEN_GITPROVIDER: { value: fe251dd97eccb2ea55da1072ca09c4b8 }
+  CROWSTORE_TOKEN_GITUSERNAME: { value: c9e081c08366187bb1ab52a1185696f8 }
+  CROWSTORE_TOKEN_GITTOKEN:    { value: 06638103869c385bdb0850f4c248ca3b }
+
+  # Only needed if you use crowstore://gitbranch above:
+  #CROWSTORE_TOKEN_GITBRANCH: { value: f4e9076b9dc189ad06dfc485fd731bf7 }
 jobs:
 - name: CROW CROWFLOW 
   stages:
@@ -57,7 +64,8 @@ jobs:
         # --- required / important fields your function expects ---
         clone_dir: env=CLONE_DIR
         source_url: env=SOURCE_URL
-        branches: env=BRANCHES
+        branches: 
+        - master
         provider: env=GIT_PROVIDER
         username: env=GIT_USERNAME
         token: env=GIT_TOKEN
