@@ -34,7 +34,7 @@ environment:
   # Only needed if you use crowstore://gitbranch above:
   #CROWSTORE_TOKEN_GITBRANCH: { value: f4e9076b9dc189ad06dfc485fd731bf7 }
 jobs:
-- name: CROW CROWFLOW  2
+- name: CROW CROWFLOW 2
   stages:
   - name: Updating Azure Server
     tasks:
@@ -150,7 +150,7 @@ jobs:
   - name: Trivy Image (public)
     tasks:
       trivy:
-        enabled: false
+        enabled: true
         format: json
         output_dir: /tmp/crow
         targets:
@@ -199,7 +199,7 @@ jobs:
   - name: docker push stage
     tasks:
       docker_push:
-        enabled: true
+        enabled: false
         provider: azure
         image_name: devopsbot.azurecr.io/crow-cli
         image_tag: V0.1.31
