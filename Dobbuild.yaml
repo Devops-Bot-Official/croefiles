@@ -145,17 +145,17 @@ jobs:
   - name: Trivy Image (public)
     tasks:
       trivy:
-        enabled: true
+        enabled: false
         format: json
         output_dir: /tmp/crow
         targets:
         - kind: image
           target: devopsbot.azurecr.io/crow-cli:V0.1.31  
-          
+
   - name: Convert Image Reports
     tasks:
       file_converter:
-        enabled: true
+        enabled: false
         inputs:
           - /tmp/crow/image-devopsbot.azurecr.io_crow-cli_V0.1.31-20250829-072715.json
         output_dir: /tmp/crow/converted
@@ -171,12 +171,12 @@ jobs:
         ensure_install: true
         to: ["mohamed.sesay@outlook.com.au"]
         subject: "Trivy image Summary for Crow"
-        template_path: "/tmp/crow/converted/*.md"
+        template_path: "/tmp/crow/converted/image-devopsbot.azurecr.io_crow-cli_V0.1.31-20250829-072715-summary.md"
         context:
           name: "Prod Runner"
         attachments:
           - "/tmp/crow/image-devopsbot.azurecr.io_crow-cli_V0.1.31-20250829-072715.json"
-          - "/tmp/crow/converted/*.md"
+          - "/tmp/crow/converted/image-devopsbot.azurecr.io_crow-cli_V0.1.31-20250829-072715-summary.md"
         track_open: true
         report: true
         priority: high
