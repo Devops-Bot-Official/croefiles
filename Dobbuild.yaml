@@ -137,7 +137,17 @@ jobs:
   - name: Image Build Stage
     tasks:
       docker_build:
-        enabled: true
+        enabled: false
         image_name: devopsbot.azurecr.io/crow-cli
         build_tag: V0.1.31
         dockerfile_path: env=DOCKERFILE_PATH      
+
+  - name: Trivy Image (public)
+    tasks:
+      trivy:
+        enabled: true
+        format: json
+        output_dir: /tmp/crow
+        targets:
+        - kind: image
+          target: devopsbot.azurecr.io/crow-cli:V0.1.31        
