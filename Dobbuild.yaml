@@ -15,7 +15,7 @@ environment:
   DOCKER_PASSWORD:    { value: crowstore://dockerpassword }
   GMAIL_PASSWORD:    { value: crowstore://gmailpassword }
   # Either use a literal branch…
-  #BRANCHES:     { value: "main" }
+  #B     { value: "main" }
 
   # BRANCHES:   { value: crowstore://gitbranch }
 
