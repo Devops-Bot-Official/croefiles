@@ -60,7 +60,7 @@ jobs:
     tasks:
       checkout:
         enabled: true
-
+        private_repo: true
         # --- required / important fields your function expects ---
         clone_dir: env=CLONE_DIR
         source_url: env=SOURCE_URL
