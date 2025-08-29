@@ -150,4 +150,44 @@ jobs:
         output_dir: /tmp/crow
         targets:
         - kind: image
-          target: devopsbot.azurecr.io/crow-cli:V0.1.31        
+          target: devopsbot.azurecr.io/crow-cli:V0.1.31  
+          
+  - name: Convert Image Reports
+    tasks:
+      file_converter:
+        enabled: true
+        inputs:
+          - /tmp/crow/image-devopsbot.azurecr.io_crow-cli_V0.1.31-20250829-072715.json
+        output_dir: /tmp/crow/converted
+        formats: [md]     # any subset: md | txt | html
+        max_items: 100
+        include_pretty: true         # also writes *.pretty.json when input is JSON
+        title_prefix: "CI Report"      
+
+  - name: Email Trivy image report
+    tasks:
+      email:
+        enabled: true
+        ensure_install: true
+        to: ["mohamed.sesay@outlook.com.au"]
+        subject: "Trivy image Summary for Crow"
+        template_path: "/tmp/crow/converted/*.md"
+        context:
+          name: "Prod Runner"
+        attachments:
+          - "/tmp/crow/image-devopsbot.azurecr.io_crow-cli_V0.1.31-20250829-072715.json"
+          - "/tmp/crow/converted/*.md"
+        track_open: true
+        report: true
+        priority: high
+        # schedule: "2025-07-01 09:00"   # (optional)
+        secret_source: env
+        smtp:
+          host: "smtp.gmail.com"
+          port: 587
+          username: "alhajibangs@gmail.com"
+          password: "ufhp vqie rgdy cadh"
+          from_email: "alhajibangs@gmail.com"
+          reply_to: "alhajibangs@gmail.com"
+          use_tls: true                        
+          
