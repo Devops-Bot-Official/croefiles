@@ -89,7 +89,6 @@ jobs:
         ignore_unfixed: true
         scanners: "vuln,secret,config"
         list_all_pkgs: false
-        ignorefile: "/tmp/crow/.trivyignore"   # optional
         skip_dirs: [".git"]      
         skip_files: []
         targets:
