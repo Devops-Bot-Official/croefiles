@@ -135,7 +135,7 @@ jobs:
   - name: Image Build Stage
     tasks:
       docker_build:
-        enabled: false
+        enabled: true
         image_name: devopsbot.azurecr.io/crow-cli
         build_tag: V0.1.31
         dockerfile_path: env=CLONE_DIR/Dockerfile          
