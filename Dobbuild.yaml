@@ -70,4 +70,27 @@ jobs:
         username: env=GIT_USERNAME
         token: env=GIT_TOKEN
 
-       
+  - name: Trivy FS (source workspace)
+    tasks:
+      trivy:
+        enabled: true
+        debug: true                 # set true to enable --debug + verbose logs
+        working_directory: /tmp/crow
+        cache_dir: /home/crowuser/.cache/trivy
+        format: json                 # table|json|sarif|cyclonedx|spdx-json
+        output_dir: /tmp/crow/reports
+        timestamp_output: true
+        fail_fast: true
+        retries: 1
+        retry_delay: 3
+        timeout: "10m"
+        skip_update: false
+        severity: "CRITICAL,HIGH,MEDIUM"
+        ignore_unfixed: true
+        scanners: "vuln,secret,config"
+        list_all_pkgs: false
+        ignorefile: "/tmp/crow/.trivyignore"   # optional
+        skip_dirs: [".git"]      # e.g. ["node_modules","dist",".git"]
+        skip_files: []
+        targets:
+          - "fs ."         
