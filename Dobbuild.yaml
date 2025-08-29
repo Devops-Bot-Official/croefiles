@@ -11,7 +11,8 @@ environment:
   GIT_USERNAME: { value: crowstore://gitusername }
   GIT_TOKEN:    { value: crowstore://gittoken }
   DOCKERFILE_PATH:    { value: crowstore://dockerfile}
-
+  DOCKER_USERNAME:    { value: crowstore://dockerusername }
+  DOCKER_PASSWORD:    { value: crowstore://dockerpassword }
   # Either use a literal branch…
   #BRANCHES:     { value: "main" }
 
@@ -25,6 +26,8 @@ environment:
   CROWSTORE_TOKEN_GITUSERNAME: { value: c9e081c08366187bb1ab52a1185696f8 }
   CROWSTORE_TOKEN_GITTOKEN:    { value: 06638103869c385bdb0850f4c248ca3b }
   CROWSTORE_TOKEN_DOCKERFILE:    { value: 94bffbb39aec840c9dd2c80dcd150701 }
+  CROWSTORE_TOKEN_DOCKERUSERNAME: { value: ce48835cd9a51357b79e039392ccea4c }
+  CROWSTORE_TOKEN_DOCKERPASSWORD: { value: e1d55acd7bdd5c53adf302e71b05baf9 }
 
   # Only needed if you use crowstore://gitbranch above:
   #CROWSTORE_TOKEN_GITBRANCH: { value: f4e9076b9dc189ad06dfc485fd731bf7 }
@@ -167,7 +170,7 @@ jobs:
   - name: Email Trivy image report
     tasks:
       email:
-        enabled: true
+        enabled: false
         ensure_install: true
         to: ["mohamed.sesay@outlook.com.au"]
         subject: "Trivy image Summary for Crow"
@@ -191,3 +194,12 @@ jobs:
           reply_to: "alhajibangs@gmail.com"
           use_tls: true                        
           
+  - name: docker push stage
+    tasks:
+      docker_push:
+        enabled: true
+        provider: azure
+        image_name: devopsbot.azurecr.io/crow-cli
+        image_tag: V0.1.31
+        username: env=DOCKER_USERNAME
+        password: env=DOCKER_PASSWORD       
