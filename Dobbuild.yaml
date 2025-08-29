@@ -90,7 +90,7 @@ jobs:
         scanners: "vuln,secret,config"
         list_all_pkgs: false
         ignorefile: "/tmp/crow/.trivyignore"   # optional
-        skip_dirs: [".git"]      # e.g. ["node_modules","dist",".git"]
+        skip_dirs: [".git"]      
         skip_files: []
         targets:
           - "fs ."         
