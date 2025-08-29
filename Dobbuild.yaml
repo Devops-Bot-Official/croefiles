@@ -105,3 +105,28 @@ jobs:
         max_items: 100
         include_pretty: true         # also writes *.pretty.json when input is JSON
         title_prefix: "CI Report"            
+  - name: Email Report (Model)
+    tasks:
+      email:
+        enabled: true
+        ensure_install: false
+        to: ["mohamed.sesay@outlook.com.au"]
+        subject: "Trivy Summary for Crow"
+        template_path: "/tmp/crow/converted/filesystem-.-20250829-062515-summary.md"
+        context:
+          name: "Prod Runner"
+        attachments:
+          - "/tmp/crow/reports/filesystem-.-20250829-062515.json"
+        track_open: true
+        report: true
+        priority: high
+        # schedule: "2025-07-01 09:00"   # (optional)
+        secret_source: env
+        smtp:
+          host: "smtp.gmail.com"
+          port: 587
+          username: "alhajibangs@gmail.com"
+          password: "ufhp vqie rgdy cadh"
+          from_email: "alhajibangs@gmail.com"
+          reply_to: "alhajibangs@gmail.com"
+          use_tls: true        
