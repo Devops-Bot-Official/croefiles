@@ -34,7 +34,7 @@ environment:
   # Only needed if you use crowstore://gitbranch above:
   #CROWSTORE_TOKEN_GITBRANCH: { value: f4e9076b9dc189ad06dfc485fd731bf7 }
 jobs:
-- name: CROW CROWFLOW 
+- name: CROW CROWFLOW  2
   stages:
   - name: Updating Azure Server
     tasks:
