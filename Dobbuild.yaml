@@ -93,3 +93,15 @@ jobs:
         skip_files: []
         targets:
           - "fs ."         
+
+  - name: Convert Reports
+    tasks:
+      file_converter:
+        enabled: true
+        inputs:
+          - /tmp/crow/reports/filesystem-.-20250829-062515.json
+        output_dir: /tmp/crow/converted
+        formats: [md]     # any subset: md | txt | html
+        max_items: 100
+        include_pretty: true         # also writes *.pretty.json when input is JSON
+        title_prefix: "CI Report"            
