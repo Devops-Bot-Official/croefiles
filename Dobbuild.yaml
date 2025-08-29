@@ -77,7 +77,7 @@ jobs:
         username: env=GIT_USERNAME
         token: env=GIT_TOKEN
 
-  - name: Trivy FS (source workspace)
+  - name: Trivy FS (new)
     tasks:
       trivy:
         enabled: false
