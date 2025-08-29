@@ -32,7 +32,7 @@ jobs:
   - name: Updating Azure Server
     tasks:
       shell:
-        enabled: true
+        enabled: false
         shell: bash
         steps:
         - sudo apt-get update -y
@@ -41,7 +41,7 @@ jobs:
   - name: Install GIT Python(Debian)
     tasks:
       packages:
-        enabled: true
+        enabled: false
         # Keep this list focused on universally-available kits to avoid repo conflicts
         kits:
           - python            # python3, pip, venv
@@ -59,7 +59,7 @@ jobs:
   - name: Git Checkout one
     tasks:
       checkout:
-        enabled: true
+        enabled: false
         private_repo: true
         # --- required / important fields your function expects ---
         clone_dir: env=CLONE_DIR
@@ -73,7 +73,7 @@ jobs:
   - name: Trivy FS (source workspace)
     tasks:
       trivy:
-        enabled: true
+        enabled: false
         debug: true                 # set true to enable --debug + verbose logs
         working_directory: /tmp/crow
         cache_dir: /home/crowuser/.cache/trivy
@@ -97,7 +97,7 @@ jobs:
   - name: Convert Reports
     tasks:
       file_converter:
-        enabled: true
+        enabled: false
         inputs:
           - /tmp/crow/reports/filesystem-.-20250829-062515.json
         output_dir: /tmp/crow/converted
@@ -117,6 +117,7 @@ jobs:
           name: "Prod Runner"
         attachments:
           - "/tmp/crow/reports/filesystem-.-20250829-062515.json"
+          - "/tmp/crow/converted/filesystem-.-20250829-062515-summary.md"
         track_open: true
         report: true
         priority: high
