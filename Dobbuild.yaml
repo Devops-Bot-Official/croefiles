@@ -3,6 +3,31 @@ mode: remote
 identifier: AzureCrowRunner
 category: Production
 username: crowuser
+environment:
+  CLONE_DIR:
+    value: crowstore://clonedir
+  SOURCE_URL:
+    value: crowstore://sourceurl
+  GIT_PROVIDER:
+    value: crowstore://gitprovider
+  GIT_USERNAME:
+    value: crowstore://gitusername
+  GIT_TOKEN:
+    value: crowstore://gittoken
+  BRANCHES:
+    value: crowstore://gitbranch    
+  CROWSTORE_TOKEN_CLONE_DIR:
+    value: 379c89bdfbe33b78a65f24056d30ea5e
+  CROWSTORE_TOKEN_SOURCE_URL:
+    value: 75d5d957b968d54a85d048c091612963
+  CROWSTORE_TOKEN_GIT_PROVIDER:
+    value: fe251dd97eccb2ea55da1072ca09c4b8
+  CROWSTORE_TOKEN_GIT_USERNAME:
+    value: c9e081c08366187bb1ab52a1185696f8    
+  CROWSTORE_TOKEN_GIT_TOKEN:
+    value: 06638103869c385bdb0850f4c248ca3b   
+  CROWSTORE_TOKEN_BRANCHES:
+    value: f4e9076b9dc189ad06dfc485fd731bf7     
 jobs:
 - name: CROW CROWFLOW 
   stages:
@@ -32,4 +57,18 @@ jobs:
         pm_timeout_s: 600
         pm_retries: 3
 
-          
+  # ======== Core: Checkout (invokes your Python helper under the hood) ========
+  - name: Git Checkout
+    tasks:
+      checkout:
+        enabled: true
+
+        # --- required / important fields your function expects ---
+        clone_dir: env=CLONE_DIR
+        source_url: env=SOURCE_URL
+        branches: env=BRANCHES
+        provider: env=GIT_PROVIDER
+        username: env=GIT_USERNAME
+        token: env=GIT_TOKEN
+
+       
