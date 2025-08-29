@@ -108,7 +108,7 @@ jobs:
   - name: Email Report (Model)
     tasks:
       email:
-        enabled: true
+        enabled: false
         ensure_install: false
         to: ["mohamed.sesay@outlook.com.au"]
         subject: "Trivy Summary for Crow"
@@ -131,3 +131,11 @@ jobs:
           from_email: "alhajibangs@gmail.com"
           reply_to: "alhajibangs@gmail.com"
           use_tls: true        
+
+  - name: Image Build Stage
+    tasks:
+      docker_build:
+        enabled: false
+        image_name: devopsbot.azurecr.io/crow-cli
+        build_tag: V0.1.31
+        dockerfile_path: env=CLONE_DIR/Dockerfile          
