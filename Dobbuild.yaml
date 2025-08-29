@@ -3,19 +3,23 @@ mode: remote
 identifier: AzureCrowRunner
 category: Production
 username: crowuser
+
 environment:
+  # === Crowstore-backed values (names after crowstore:// MUST match token suffixes) ===
   CLONE_DIR:
-    value: crowstore://clonedir
+    value: crowstore://clone_dir
   SOURCE_URL:
-    value: crowstore://sourceurl
+    value: crowstore://source_url
   GIT_PROVIDER:
-    value: crowstore://gitprovider
+    value: crowstore://git_provider
   GIT_USERNAME:
-    value: crowstore://gitusername
+    value: crowstore://git_username
   GIT_TOKEN:
-    value: crowstore://gittoken
+    value: crowstore://git_token
   BRANCHES:
-    value: crowstore://gitbranch    
+    value: crowstore://branches
+
+  # === Matching tokens (CROWSTORE_TOKEN_<UPPERCASE OF name after crowstore://>) ===
   CROWSTORE_TOKEN_CLONE_DIR:
     value: 379c89bdfbe33b78a65f24056d30ea5e
   CROWSTORE_TOKEN_SOURCE_URL:
@@ -23,13 +27,14 @@ environment:
   CROWSTORE_TOKEN_GIT_PROVIDER:
     value: fe251dd97eccb2ea55da1072ca09c4b8
   CROWSTORE_TOKEN_GIT_USERNAME:
-    value: c9e081c08366187bb1ab52a1185696f8    
+    value: c9e081c08366187bb1ab52a1185696f8
   CROWSTORE_TOKEN_GIT_TOKEN:
-    value: 06638103869c385bdb0850f4c248ca3b   
+    value: 06638103869c385bdb0850f4c248ca3b
   CROWSTORE_TOKEN_BRANCHES:
-    value: f4e9076b9dc189ad06dfc485fd731bf7     
+    value: f4e9076b9dc189ad06dfc485fd731bf7
+
 jobs:
-- name: CROW CROWFLOW 
+- name: CROW CROWFLOW
   stages:
   - name: Updating Azure Server
     tasks:
@@ -39,31 +44,25 @@ jobs:
         steps:
         - sudo apt-get update -y
 
-  # Install Git iff missing (your helper also attempts this; doing it here makes logs clearer)
   - name: Install GIT Python(Debian)
     tasks:
       packages:
         enabled: true
-        # Keep this list focused on universally-available kits to avoid repo conflicts
         kits:
-          - python            # python3, pip, venv
+          - python
           - git-lfs
         extra_os_packages:
-          - shellcheck        # linter that’s reliably in Ubuntu/Debian/Alpine repos
-  
+          - shellcheck
         update_cache: true
         verbose: true
         fail_fast: true
         pm_timeout_s: 600
         pm_retries: 3
 
-  # ======== Core: Checkout (invokes your Python helper under the hood) ========
   - name: Git Checkout
     tasks:
       checkout:
         enabled: true
-
-        # --- required / important fields your function expects ---
         clone_dir: env=CLONE_DIR
         source_url: env=SOURCE_URL
         branches: env=BRANCHES
