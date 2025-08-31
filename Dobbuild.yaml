@@ -151,7 +151,7 @@ jobs:
         build_tag: V0.1.32
         dockerfile_path: env=DOCKERFILE_PATH      
 
-  - name: Trivy Image (public)
+  - name: Trivy Image (private)
     tasks:
       trivy:
         enabled: true
