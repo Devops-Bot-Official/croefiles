@@ -14,6 +14,7 @@ environment:
   DOCKER_USERNAME:    { value: crowstore://dockerusername }
   DOCKER_PASSWORD:    { value: crowstore://dockerpassword }
   GMAIL_PASSWORD:    { value: crowstore://gmailpassword }
+  CLI_IMAGE:    { value: crowstore://cliimage }
   # Either use a literal branch…
   #B     { value: "main" }
 
@@ -30,6 +31,7 @@ environment:
   CROWSTORE_TOKEN_DOCKERUSERNAME: { value: ce48835cd9a51357b79e039392ccea4c }
   CROWSTORE_TOKEN_DOCKERPASSWORD: { value: e1d55acd7bdd5c53adf302e71b05baf9 }
   CROWSTORE_TOKEN_GMAILPASSWORD:  { value: dac8e6153a018d7e37a99eacd37ed2b1 }
+  CROWSTORE_TOKEN_CLIIMAGE:  { value: 70b26575bce453f8b06564640a194712 }
 
   # Only needed if you use crowstore://gitbranch above:
   #CROWSTORE_TOKEN_GITBRANCH: { value: f4e9076b9dc189ad06dfc485fd731bf7 }
@@ -66,7 +68,7 @@ jobs:
   - name: Git Checkout one
     tasks:
       checkout:
-        enabled: false
+        enabled: true
         private_repo: true
         # --- required / important fields your function expects ---
         clone_dir: env=CLONE_DIR
@@ -142,20 +144,20 @@ jobs:
   - name: Image Build Stage
     tasks:
       docker_build:
-        enabled: false
-        image_name: devopsbot.azurecr.io/crow-cli
-        build_tag: V0.1.31
+        enabled: true
+        image_name: env=CLI_IMAGE
+        build_tag: V0.1.32
         dockerfile_path: env=DOCKERFILE_PATH      
 
   - name: Trivy Image (public)
     tasks:
       trivy:
-        enabled: true
+        enabled: false
         format: json
         output_dir: /tmp/crow
         targets:
         - kind: image
-          target: devopsbot.azurecr.io/crow-cli:V0.1.31  
+          target: ${env=CLI_IMAGE}:V0.1.31  
 
   - name: Convert Image Reports
     tasks:
@@ -172,7 +174,7 @@ jobs:
   - name: Email Trivy image report
     tasks:
       email:
-        enabled: true
+        enabled: false
         ensure_install: true
         to: ["mohamed.sesay@outlook.com.au"]
         subject: "Trivy image Summary for Crow"
@@ -201,7 +203,7 @@ jobs:
       docker_push:
         enabled: false
         provider: azure
-        image_name: devopsbot.azurecr.io/crow-cli
+        image_name: env=CLI_IMAGE
         image_tag: V0.1.31
         username: env=DOCKER_USERNAME
         password: env=DOCKER_PASSWORD       
