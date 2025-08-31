@@ -15,6 +15,7 @@ environment:
   DOCKER_PASSWORD:    { value: crowstore://dockerpassword }
   GMAIL_PASSWORD:    { value: crowstore://gmailpassword }
   CLI_IMAGE:    { value: crowstore://cliimage }
+  IMAGE:    { value: crowstore://image }
   # Either use a literal branch…
   #B     { value: "main" }
 
@@ -32,6 +33,7 @@ environment:
   CROWSTORE_TOKEN_DOCKERPASSWORD: { value: e1d55acd7bdd5c53adf302e71b05baf9 }
   CROWSTORE_TOKEN_GMAILPASSWORD:  { value: dac8e6153a018d7e37a99eacd37ed2b1 }
   CROWSTORE_TOKEN_CLIIMAGE:  { value: 70b26575bce453f8b06564640a194712 }
+  CROWSTORE_TOKEN_IMAGE:    { value: 9dd69f8e14cc33c892a4ed408a9427dd }
 
   # Only needed if you use crowstore://gitbranch above:
   #CROWSTORE_TOKEN_GITBRANCH: { value: f4e9076b9dc189ad06dfc485fd731bf7 }
@@ -157,7 +159,7 @@ jobs:
         output_dir: /tmp/crow
         targets:
         - kind: image
-          target: ${env=CLI_IMAGE}:V0.1.31  
+          target: env=IMAGE 
 
   - name: Convert Image Reports
     tasks:
@@ -201,9 +203,9 @@ jobs:
   - name: docker push stage
     tasks:
       docker_push:
-        enabled: false
+        enabled: true
         provider: azure
         image_name: env=CLI_IMAGE
-        image_tag: V0.1.31
+        image_tag: V0.1.32
         username: env=DOCKER_USERNAME
         password: env=DOCKER_PASSWORD       
