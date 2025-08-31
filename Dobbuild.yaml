@@ -68,7 +68,7 @@ jobs:
   - name: Git Checkout one
     tasks:
       checkout:
-        enabled: true
+        enabled: false
         private_repo: true
         # --- required / important fields your function expects ---
         clone_dir: env=CLONE_DIR
@@ -144,7 +144,7 @@ jobs:
   - name: Image Build Stage
     tasks:
       docker_build:
-        enabled: true
+        enabled: false
         image_name: env=CLI_IMAGE
         build_tag: V0.1.32
         dockerfile_path: env=DOCKERFILE_PATH      
@@ -152,7 +152,7 @@ jobs:
   - name: Trivy Image (public)
     tasks:
       trivy:
-        enabled: false
+        enabled: true
         format: json
         output_dir: /tmp/crow
         targets:
